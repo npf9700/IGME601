@@ -7,6 +7,11 @@ public class Player : MonoBehaviour
     private CharacterController character;
     private float playerSpeed;
     private Vector2 position;
+    private bool isHoldingItem;
+    [SerializeField]
+    private Color heldPaperColor;
+
+    private GameObject overlappedObject;
 
     [SerializeField]
     private Camera mainCam;
@@ -18,6 +23,22 @@ public class Player : MonoBehaviour
 
     private Camera[] cams;
 
+    public Color HeldPaperColor
+    {
+        get { return heldPaperColor; }
+        set { heldPaperColor = value; }
+    }
+    public bool IsHoldingItem
+    {
+        get { return isHoldingItem; }
+        set { isHoldingItem = value; }
+    }
+    public GameObject OverlappedObject
+    {
+        get { return overlappedObject; }
+        set { overlappedObject = value; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +47,7 @@ public class Player : MonoBehaviour
         position = this.transform.position;
         curCam = 1;
         cams = new Camera[] { leftCam, mainCam, rightCam};
+        isHoldingItem = false;
     }
 
     // Update is called once per frame
@@ -36,7 +58,9 @@ public class Player : MonoBehaviour
         position = this.transform.position;
         CheckCameraBoundsY();
         CheckCameraBoundsX();
+        CheckOverlap();//Does Not Function Properly
         this.transform.position = position;
+        
     }
 
     private void CheckCameraBoundsX()
@@ -104,5 +128,20 @@ public class Player : MonoBehaviour
         curCam += dir;
         cams[curCam].enabled = true;
         cams[curCam - dir].enabled = false;
+    }
+
+    private void CheckOverlap()
+    {
+        if(overlappedObject != null)
+        {
+            if (this.position.x > overlappedObject.transform.position.x + (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x))
+                position.x = overlappedObject.transform.position.x + (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x);
+            if (this.position.x < overlappedObject.transform.position.x - (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x))
+                position.x = overlappedObject.transform.position.x - (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x);
+            if (this.position.y > overlappedObject.transform.position.y + (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y))
+                position.y = overlappedObject.transform.position.y + (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y);
+            if (this.position.y > overlappedObject.transform.position.y - (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y))
+                position.y = overlappedObject.transform.position.y - (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y);
+        }
     }
 }
