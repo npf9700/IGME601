@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
                 {
                     player.IsHoldingItem = false;
                     cabinets[i].StoredSuccess = true;
+                    cabinets[i].GetComponent<SpriteRenderer>().color = Color.yellow;
                     player.HeldPaperColor = Color.white;
                     Debug.Log("Stored!");
                     if (CheckCabinets())
