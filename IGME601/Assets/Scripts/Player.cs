@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    private GameManager gameMgr;
     private CharacterController character;
     private float playerSpeed;
     private Vector2 position;
     private bool isHoldingItem;
     [SerializeField]
     private Color heldPaperColor;
+    private bool hasKey;
 
     private GameObject overlappedObject;
 
@@ -38,6 +41,16 @@ public class Player : MonoBehaviour
         get { return overlappedObject; }
         set { overlappedObject = value; }
     }
+    public Vector2 Position
+    {
+        get { return position; }
+        set { position = value; }
+    }
+    public bool HasKey
+    {
+        get { return hasKey; }
+        set { hasKey = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +61,7 @@ public class Player : MonoBehaviour
         curCam = 1;
         cams = new Camera[] { leftCam, mainCam, rightCam};
         isHoldingItem = false;
+        hasKey = false;
     }
 
     // Update is called once per frame
@@ -58,26 +72,43 @@ public class Player : MonoBehaviour
         position = this.transform.position;
         CheckCameraBoundsY();
         CheckCameraBoundsX();
-        CheckOverlap();//Does Not Function Properly
         this.transform.position = position;
-        
     }
 
-    private void CheckCameraBoundsX()
+    public void CheckCameraBoundsX()
     {
         Vector2 screenPos = Camera.main.WorldToScreenPoint(position);
 
         if (curCam == 1)
         {
-            if (screenPos.x < 0)
+            if (gameMgr.IsDoorActive && hasKey == false)
             {
-                Debug.Log("Left");
-                ScreenTransition(-1);
+                if (screenPos.x < 0)
+                {
+                    screenPos.x = 0;
+                    position = Camera.main.ScreenToWorldPoint(screenPos);
+                }
+                else if (screenPos.x > Camera.main.pixelWidth)
+                {
+                    Debug.Log("Right");
+                    ScreenTransition(1);
+                }
             }
-            else if (screenPos.x > Camera.main.pixelWidth)
+            else if (hasKey || gameMgr.IsDoorActive == false)
             {
-                Debug.Log("Right");
-                ScreenTransition(1);
+                if (screenPos.x < 0)
+                {
+                    Debug.Log("Left");
+                    ScreenTransition(-1);
+                    gameMgr.IsDoorActive = false;
+                    Destroy(gameMgr.Door.gameObject);
+                    hasKey = false;
+                }
+                else if (screenPos.x > Camera.main.pixelWidth)
+                {
+                    Debug.Log("Right");
+                    ScreenTransition(1);
+                }
             }
         }
         else if(curCam == 0)
@@ -104,9 +135,10 @@ public class Player : MonoBehaviour
                 ScreenTransition(-1);
             }
         }
+        
     }
 
-    private void CheckCameraBoundsY()
+    public void CheckCameraBoundsY()
     {
         Vector2 screenPos = Camera.main.WorldToScreenPoint(position);
         if (screenPos.y < 0)
@@ -121,6 +153,7 @@ public class Player : MonoBehaviour
         }
 
         position = Camera.main.ScreenToWorldPoint(screenPos);
+        this.transform.position = position;
     }
 
     private void ScreenTransition(int dir)
