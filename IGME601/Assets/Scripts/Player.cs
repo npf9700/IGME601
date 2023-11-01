@@ -79,63 +79,21 @@ public class Player : MonoBehaviour
     {
         Vector2 screenPos = Camera.main.WorldToScreenPoint(position);
 
-        if (curCam == 1)
+        if (screenPos.x < 0)
         {
-            if (gameMgr.IsDoorActive && hasKey == false)
-            {
-                if (screenPos.x < 0)
-                {
-                    screenPos.x = 0;
-                    position = Camera.main.ScreenToWorldPoint(screenPos);
-                }
-                else if (screenPos.x > Camera.main.pixelWidth)
-                {
-                    Debug.Log("Right");
-                    ScreenTransition(1);
-                }
-            }
-            else if (hasKey || gameMgr.IsDoorActive == false)
-            {
-                if (screenPos.x < 0)
-                {
-                    Debug.Log("Left");
-                    ScreenTransition(-1);
-                    gameMgr.IsDoorActive = false;
-                    Destroy(gameMgr.Door.gameObject);
-                    hasKey = false;
-                }
-                else if (screenPos.x > Camera.main.pixelWidth)
-                {
-                    Debug.Log("Right");
-                    ScreenTransition(1);
-                }
-            }
+            screenPos.x = 0;
+            position = Camera.main.ScreenToWorldPoint(screenPos);
+            //Debug.Log("Left");
+            //ScreenTransition(-1);
+            //gameMgr.IsDoorActive = false;
+            //Destroy(gameMgr.Door.gameObject);
+            //hasKey = false;
         }
-        else if(curCam == 0)
+        else if (screenPos.x > Camera.main.pixelWidth)
         {
-            if (screenPos.x < 0)
-            {
-                screenPos.x = 0;
-                position = Camera.main.ScreenToWorldPoint(screenPos);
-            }
-            else if(screenPos.x > Camera.main.pixelWidth)
-            {
-                ScreenTransition(1);
-            }
+            screenPos.x = Camera.main.pixelWidth;
+            position = Camera.main.ScreenToWorldPoint(screenPos);
         }
-        else if(curCam == 2)
-        {
-            if (screenPos.x > Camera.main.pixelWidth)
-            {
-                screenPos.x = Camera.main.pixelWidth;
-                position = Camera.main.ScreenToWorldPoint(screenPos);
-            }
-            else if(screenPos.x < 0)
-            {
-                ScreenTransition(-1);
-            }
-        }
-        
     }
 
     public void CheckCameraBoundsY()
@@ -156,25 +114,11 @@ public class Player : MonoBehaviour
         this.transform.position = position;
     }
 
-    private void ScreenTransition(int dir)
+    public void ScreenTransition(int dir)
     {
         curCam += dir;
-        cams[curCam].enabled = true;
         cams[curCam - dir].enabled = false;
+        cams[curCam].enabled = true;
     }
 
-    private void CheckOverlap()
-    {
-        if(overlappedObject != null)
-        {
-            if (this.position.x > overlappedObject.transform.position.x + (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x))
-                position.x = overlappedObject.transform.position.x + (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x);
-            if (this.position.x < overlappedObject.transform.position.x - (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x))
-                position.x = overlappedObject.transform.position.x - (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.x);
-            if (this.position.y > overlappedObject.transform.position.y + (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y))
-                position.y = overlappedObject.transform.position.y + (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y);
-            if (this.position.y > overlappedObject.transform.position.y - (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y))
-                position.y = overlappedObject.transform.position.y - (overlappedObject.GetComponent<SpriteRenderer>().sprite.bounds.size.y);
-        }
-    }
 }

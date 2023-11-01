@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     private Player player;
 
     [SerializeField]
-    private GameObject door;
+    private List<Door> doors;
 
     [SerializeField]
     private GameObject key;
@@ -19,19 +19,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Transform keySpawn;
 
-    private bool isDoorActive;
     private List<GameObject> keys;
 
-    public bool IsDoorActive
-    {
-        get { return isDoorActive; }
-        set { isDoorActive = value; }
-    }
-
-    public GameObject Door
-    {
-        get { return door; }
-    }
+    
 
     // Start is called before the first frame update
     void Start()
@@ -42,14 +32,30 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(door != null)
+        //Door Collision Checks
+        for(int i = 0; i < doors.Count; i++)
         {
-            isDoorActive = true;
+            if (doors[i].CheckOverlap(player))
+            {
+                if(Input.GetKeyDown(KeyCode.Space) && doors[i].IsLocked == false)
+                {
+                    if (doors[i].IsLeft)
+                    {
+                        player.ScreenTransition(-1);
+                    }
+                    else
+                    {
+                        player.ScreenTransition(1);
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.Space) && player.HasKey && doors[i].IsLocked)
+                {
+                    player.HasKey = false;
+                    doors[i].IsLocked = false;
+                }
+            }
         }
-        else
-        {
-            isDoorActive = false;
-        }
+        //Cabinet Collision Checks
         for (int i = 0; i < cabinets.Count; i++)
         {
             if (CheckOverlap(player, cabinets[i].gameObject))
@@ -72,7 +78,7 @@ public class GameManager : MonoBehaviour
 
         if (keys.Count > 0 && keys[0] != null)
         {
-            if (CheckOverlap(player, keys[0]))
+            if (keys[0].GetComponent<Key>().CheckOverlap(player) && Input.GetKeyDown(KeyCode.Space))
             {
                 player.HasKey = true;
                 Destroy(keys[0].gameObject);
@@ -99,13 +105,13 @@ public class GameManager : MonoBehaviour
         float y = p.transform.position.y;
         float width = p.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2;
         float height = p.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2;
-        if (other.GetComponent<SpriteRenderer>().sprite.bounds.size.x*0.2f + other.transform.position.x < x - width)
+        if (other.GetComponent<SpriteRenderer>().sprite.bounds.size.x + other.transform.position.x < x - width)
             return false;
-        if (other.GetComponent<SpriteRenderer>().sprite.bounds.size.y*0.2f + other.transform.position.y < y - height)
+        if (other.GetComponent<SpriteRenderer>().sprite.bounds.size.y + other.transform.position.y < y - height)
             return false;
-        if (other.transform.position.x - other.GetComponent<SpriteRenderer>().sprite.bounds.size.x*0.2f > x + width)
+        if (other.transform.position.x - other.GetComponent<SpriteRenderer>().sprite.bounds.size.x > x + width)
             return false;
-        if (other.transform.position.y - other.GetComponent<SpriteRenderer>().sprite.bounds.size.y*0.2f > y + height)
+        if (other.transform.position.y - other.GetComponent<SpriteRenderer>().sprite.bounds.size.y > y + height)
             return false;
         return true;
     }

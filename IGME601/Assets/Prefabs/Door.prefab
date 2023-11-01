@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7388129552800903870}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2606, y: 0.00358, z: 0}
-  m_LocalScale: {x: 0.3170022, y: 0.018659819, z: 1}
+  m_LocalPosition: {x: 0.55, y: 0.02, z: 1}
+  m_LocalScale: {x: 0.3170022, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7388129554187805689}
@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7388129554187805689}
   - component: {fileID: 7388129554187805690}
+  - component: {fileID: 4662950091819162813}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -109,8 +110,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7388129554187805691}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.8807, y: -0.0429, z: 0}
-  m_LocalScale: {x: 0.5986, y: 9.998315, z: 1}
+  m_LocalPosition: {x: -10.24, y: -0.39, z: 2}
+  m_LocalScale: {x: 0.5986, y: 1.2797843, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7388129552800903869}
@@ -169,3 +170,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4662950091819162813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7388129554187805691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab0efaa382f80a441a7ed041fd7b34ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isLocked: 0
+  isLeft: 0
