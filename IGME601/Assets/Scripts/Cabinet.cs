@@ -9,6 +9,11 @@ public class Cabinet : MonoBehaviour
 
     [SerializeField]
     private Color cabinetColor;
+    [SerializeField]
+    private GameObject paper;
+
+    private Sprite desiredSprite;
+
     private bool storedSuccess;
 
     public Color CabinetColor
@@ -20,12 +25,17 @@ public class Cabinet : MonoBehaviour
         get { return storedSuccess; }
         set { storedSuccess = value; }
     }
+    public Sprite DesiredSprite
+    {
+        get { return desiredSprite; }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         cabinetColor = this.transform.GetChild(0).GetComponent<SpriteRenderer>().color;
         storedSuccess = false;
+        desiredSprite = paper.GetComponent<SpriteRenderer>().sprite;
     }
 
     // Update is called once per frame

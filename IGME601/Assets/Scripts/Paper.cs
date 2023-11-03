@@ -20,12 +20,10 @@ public class Paper : MonoBehaviour
         
         if (CheckOverlap(player))
         {
-            if (Input.GetKeyDown(KeyCode.Space) && player.IsHoldingItem == false)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("Interacting with paper");
-                player.IsHoldingItem = true;
-                StoreColor();
-                Destroy(this.gameObject);
+                player.AddInventoryItem(this.gameObject);
+                this.gameObject.SetActive(false);
             }
         }
     }
@@ -47,10 +45,6 @@ public class Paper : MonoBehaviour
         return true;
     }
 
-    private void StoreColor()
-    {
-        player.HeldPaperColor = this.GetComponent<SpriteRenderer>().color;
-    }
     
 
     

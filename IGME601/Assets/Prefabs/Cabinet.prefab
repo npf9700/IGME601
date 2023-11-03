@@ -99,6 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  cabinetColor: {r: 0, g: 0, b: 0, a: 0}
+  paper: {fileID: 5290405857189074029, guid: effb115543f057c44bcba730f1515efb, type: 3}
 --- !u!1 &3716362085084402910
 GameObject:
   m_ObjectHideFlags: 0

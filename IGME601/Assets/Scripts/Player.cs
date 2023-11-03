@@ -9,10 +9,11 @@ public class Player : MonoBehaviour
     private CharacterController character;
     private float playerSpeed;
     private Vector2 position;
-    private bool isHoldingItem;
     [SerializeField]
     private Color heldPaperColor;
     private bool hasKey;
+
+    private List<GameObject> inventory;
 
     private GameObject overlappedObject;
 
@@ -26,16 +27,6 @@ public class Player : MonoBehaviour
 
     private Camera[] cams;
 
-    public Color HeldPaperColor
-    {
-        get { return heldPaperColor; }
-        set { heldPaperColor = value; }
-    }
-    public bool IsHoldingItem
-    {
-        get { return isHoldingItem; }
-        set { isHoldingItem = value; }
-    }
     public GameObject OverlappedObject
     {
         get { return overlappedObject; }
@@ -51,6 +42,10 @@ public class Player : MonoBehaviour
         get { return hasKey; }
         set { hasKey = value; }
     }
+    public List<GameObject> Inventory
+    {
+        get { return inventory; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -60,8 +55,8 @@ public class Player : MonoBehaviour
         position = this.transform.position;
         curCam = 1;
         cams = new Camera[] { leftCam, mainCam, rightCam};
-        isHoldingItem = false;
         hasKey = false;
+        inventory = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -119,6 +114,34 @@ public class Player : MonoBehaviour
         curCam += dir;
         cams[curCam - dir].enabled = false;
         cams[curCam].enabled = true;
+    }
+
+    public void AddInventoryItem(GameObject item)
+    {
+        inventory.Add(item);
+    }
+
+    public void RemoveInventoryItem(Sprite sprite)
+    {
+        for(int i = 0; i < inventory.Count; i++)
+        {
+            if(inventory[i].GetComponent<SpriteRenderer>().sprite == sprite)
+            {
+                inventory.RemoveAt(i);
+            }
+        }
+    }
+
+    public void RemoveInventoryItem(Sprite sprite, Color color)
+    {
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            if (inventory[i].GetComponent<SpriteRenderer>().sprite == sprite &&
+                inventory[i].GetComponent<SpriteRenderer>().color == color)
+            {
+                inventory.RemoveAt(i);
+            }
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private Transform keySpawn;
+
+    [SerializeField]
+    private InventoryUI inventory;
 
     private List<GameObject> keys;
 
@@ -52,6 +56,7 @@ public class GameManager : MonoBehaviour
                 {
                     player.HasKey = false;
                     doors[i].IsLocked = false;
+                    player.RemoveInventoryItem(key.GetComponent<SpriteRenderer>().sprite);
                 }
             }
         }
@@ -60,28 +65,35 @@ public class GameManager : MonoBehaviour
         {
             if (CheckOverlap(player, cabinets[i].gameObject))
             {
-                if (Input.GetKeyDown(KeyCode.Space) && player.HeldPaperColor == cabinets[i].CabinetColor)
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    player.IsHoldingItem = false;
-                    cabinets[i].StoredSuccess = true;
-                    cabinets[i].GetComponent<SpriteRenderer>().color = Color.yellow;
-                    player.HeldPaperColor = Color.white;
-                    Debug.Log("Stored!");
-                    if (CheckCabinets())
+                    for(int j = 0; j < inventory.UIItems.Count; j++)
                     {
-                        keys.Add(Instantiate(key, keySpawn));
+                        if(inventory.UIItems[j].GetComponent<Image>().sprite == cabinets[i].DesiredSprite &&
+                            inventory.UIItems[j].GetComponent<Image>().color == cabinets[i].CabinetColor)
+                        {
+                            player.RemoveInventoryItem(cabinets[i].DesiredSprite, cabinets[i].CabinetColor);
+                            cabinets[i].StoredSuccess = true;
+                            cabinets[i].GetComponent<SpriteRenderer>().color = Color.yellow;
+                            Debug.Log("Stored!");
+                            if (CheckCabinets())
+                            {
+                                keys.Add(Instantiate(key, keySpawn));
+                            }
+                        }
                     }
-                    
                 }
             }
         }
 
+        //Key Collision Check
         if (keys.Count > 0 && keys[0] != null)
         {
             if (keys[0].GetComponent<Key>().CheckOverlap(player) && Input.GetKeyDown(KeyCode.Space))
             {
                 player.HasKey = true;
-                Destroy(keys[0].gameObject);
+                player.AddInventoryItem(keys[0]);
+                keys[0].gameObject.SetActive(false);
                 keys[0] = null;
             }
         }
