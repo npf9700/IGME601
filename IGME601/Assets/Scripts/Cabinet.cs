@@ -44,5 +44,15 @@ public class Cabinet : MonoBehaviour
         
     }
 
-    
+    public void StoreFile()
+    {
+        storedSuccess = true;
+        this.GetComponent<SpriteRenderer>().color = Color.yellow;
+    }
+
+    public void ResetCabinet()
+    {
+        storedSuccess = false;
+        this.GetComponent<SpriteRenderer>().color = new Color(0.925f, 0.867f, 0.686f, 1f);
+    }
 }

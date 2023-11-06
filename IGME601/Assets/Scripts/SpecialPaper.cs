@@ -2,30 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Paper : MonoBehaviour
+public class SpecialPaper : MonoBehaviour
 {
-
     [SerializeField]
     private Player player;
+
+    private Vector2 position;
+
+    private bool moveTriggered;
+
+    [SerializeField]
+    private Sprite arrow;
 
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<Player>();
+        position = this.transform.position;
+        moveTriggered = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
         if (CheckOverlap(player))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && !moveTriggered)
             {
-                player.AddInventoryItem(this.gameObject);
-                this.gameObject.SetActive(false);
+                moveTriggered = true;
+            }
+            else if(Input.GetKeyDown(KeyCode.Space) && moveTriggered)
+            {
+                TransformTrigger();
             }
         }
+
+        if (moveTriggered && position.x < 9.00f)
+        {
+            position.x += 0.2f;
+        }
+
+        this.transform.position = position;
     }
 
     private bool CheckOverlap(Player p)
@@ -45,7 +63,11 @@ public class Paper : MonoBehaviour
         return true;
     }
 
-    
-
-    
+    private void TransformTrigger()
+    {
+        this.GetComponent<SpriteRenderer>().sprite = arrow;
+        Quaternion rot = new Quaternion(0f, 0f, 0f, 0f);
+        this.transform.rotation = rot;
+    }
 }
+

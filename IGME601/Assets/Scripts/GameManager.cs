@@ -16,6 +16,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject key;
+    [SerializeField]
+    private GameObject paper;
+    [SerializeField]
+    private GameObject specialPaper;
+
+    [SerializeField]
+    private List<Transform> paperSpots;
+    private List<Color> paperColors;
 
     [SerializeField]
     private Transform keySpawn;
@@ -25,12 +33,18 @@ public class GameManager : MonoBehaviour
 
     private List<GameObject> keys;
 
-    
+    private int fileCount;
+
 
     // Start is called before the first frame update
     void Start()
     {
         keys = new List<GameObject>();
+        fileCount = 0;
+        paperColors = new List<Color>();
+        paperColors.Add(Color.green);
+        paperColors.Add(Color.red);
+        paperColors.Add(Color.blue);
     }
 
     // Update is called once per frame
@@ -73,12 +87,14 @@ public class GameManager : MonoBehaviour
                             inventory.UIItems[j].GetComponent<Image>().color == cabinets[i].CabinetColor)
                         {
                             player.RemoveInventoryItem(cabinets[i].DesiredSprite, cabinets[i].CabinetColor);
-                            cabinets[i].StoredSuccess = true;
-                            cabinets[i].GetComponent<SpriteRenderer>().color = Color.yellow;
+                            cabinets[i].StoreFile();
                             Debug.Log("Stored!");
                             if (CheckCabinets())
                             {
-                                keys.Add(Instantiate(key, keySpawn));
+                                //keys.Add(Instantiate(key, keySpawn));
+                                SpawnPapers();
+                                ResetCabinets();
+                                fileCount++;
                             }
                         }
                     }
@@ -126,5 +142,41 @@ public class GameManager : MonoBehaviour
         if (other.transform.position.y - other.GetComponent<SpriteRenderer>().sprite.bounds.size.y > y + height)
             return false;
         return true;
+    }
+
+    private void SpawnPapers()
+    {
+        if (fileCount < 2)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                GameObject pap = Instantiate(paper, paperSpots[i + (3 * fileCount)]);
+                if (i == 0)
+                {
+                    pap.GetComponent<SpriteRenderer>().color = Color.red;
+                }
+                else if (i == 1)
+                {
+                    pap.GetComponent<SpriteRenderer>().color = Color.green;
+                }
+                else
+                {
+                    pap.GetComponent<SpriteRenderer>().color = Color.blue;
+                }
+            }
+        }
+        else
+        {
+            GameObject pap = Instantiate(specialPaper, paperSpots[6]);
+            pap.GetComponent<SpriteRenderer>().color = Color.blue;
+        }
+    }
+
+    private void ResetCabinets()
+    {
+        for (int i = 0; i < cabinets.Count; i++)
+        {
+            cabinets[i].ResetCabinet();
+        }
     }
 }
