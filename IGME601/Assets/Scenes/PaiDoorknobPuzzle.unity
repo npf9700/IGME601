@@ -2392,6 +2392,9 @@ MonoBehaviour:
   - {fileID: 880525805}
   - {fileID: 769786620}
   key: {fileID: 3197985039067886017, guid: aaa1d212b27a8cd4487512c8b36b97a4, type: 3}
+  paper: {fileID: 0}
+  specialPaper: {fileID: 0}
+  paperSpots: []
   keySpawn: {fileID: 532186749}
   inventory: {fileID: 1779755243}
 --- !u!4 &861237455
@@ -3426,6 +3429,8 @@ MonoBehaviour:
   doorknob: {fileID: 259114106}
   start: {fileID: 1312425323}
   end: {fileID: 465578209}
+  isPickUpable: 1
+  player: {fileID: 1730045220}
   speed: 0.75
   doorknobTrail: {fileID: 1672958504}
 --- !u!114 &1615941759 stripped
@@ -3523,6 +3528,8 @@ MonoBehaviour:
   doorknob: {fileID: 1543851622}
   start: {fileID: 1645713873}
   end: {fileID: 354285984}
+  isPickUpable: 1
+  player: {fileID: 1730045220}
   speed: 0.75
   doorknobTrail: {fileID: 1614803055}
 --- !u!4 &1672958506
@@ -3993,7 +4000,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2123732228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.58, y: 0.01, z: -0.06571364}
+  m_LocalPosition: {x: 22.34, y: 0.01, z: -0.06571364}
   m_LocalScale: {x: 5.013668, y: 5.013668, z: 5.013668}
   m_ConstrainProportionsScale: 0
   m_Children: []

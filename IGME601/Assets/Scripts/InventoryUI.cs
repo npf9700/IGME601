@@ -50,7 +50,7 @@ public class InventoryUI : MonoBehaviour
                 RectTransform trans = imageUI.AddComponent<RectTransform>();
                 trans.transform.SetParent(invenUI.transform);
                 trans.localScale = Vector3.one;
-                trans.anchoredPosition = new Vector2(-400 + (i * 30), -150);
+                trans.anchoredPosition = new Vector2(-650 + (i * 30), -300);
                 trans.sizeDelta = new Vector2(20, 25);
 
                 Image image = imageUI.AddComponent<Image>();

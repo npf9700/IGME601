@@ -13,13 +13,29 @@ public class DoorPuzzleTrigger : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void OnTriggerEnter2D(Collider2D collision)
+    void Update() 
     {
-        if (collision.gameObject.tag == "Player")
+        if (CheckOverlap(player))
         {
             Debug.Log("Triggered");
             doorknob.gameObject.SetActive(true);
             Destroy(this.gameObject);
         }
+    }
+    public bool CheckOverlap(Player p)
+    {
+        float x = p.transform.position.x;
+        float y = p.transform.position.y;
+        float width = p.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2;
+        float height = p.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2;
+        if (2.5f + this.transform.position.x < x - width)
+            return false;
+        if (2.5f + this.transform.position.y < y - height)
+            return false;
+        if (this.transform.position.x - 2.5f > x + width)
+            return false;
+        if (this.transform.position.y - 2.5f > y + height)
+            return false;
+        return true;
     }
 }
