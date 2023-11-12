@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject key;
     [SerializeField]
+    private GameObject doorknob;
+    [SerializeField]
     private GameObject paper;
     [SerializeField]
     private GameObject specialPaper;
@@ -34,6 +36,8 @@ public class GameManager : MonoBehaviour
     private List<GameObject> keys;
 
     private int fileCount;
+
+    private bool firstPuzzleSolved;
 
 
     // Start is called before the first frame update
@@ -71,6 +75,7 @@ public class GameManager : MonoBehaviour
                     player.HasKey = false;
                     doors[i].IsLocked = false;
                     player.RemoveInventoryItem(key.GetComponent<SpriteRenderer>().sprite);
+                    player.RemoveInventoryItem(doorknob.GetComponent<SpriteRenderer>().sprite);
                 }
             }
         }

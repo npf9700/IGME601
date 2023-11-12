@@ -23,7 +23,11 @@ public class Player : MonoBehaviour
     private Camera leftCam;
     [SerializeField]
     private Camera rightCam;
+    [SerializeField]
+    private Camera puzzleCam1;
     private int curCam;
+
+    private bool daydreamActivated;
 
     private Camera[] cams;
 
@@ -46,6 +50,11 @@ public class Player : MonoBehaviour
     {
         get { return inventory; }
     }
+    public bool DaydreamActivated
+    {
+        get { return daydreamActivated; }
+        set { daydreamActivated = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +66,7 @@ public class Player : MonoBehaviour
         cams = new Camera[] { leftCam, mainCam, rightCam};
         hasKey = false;
         inventory = new List<GameObject>();
+        daydreamActivated = false;
     }
 
     // Update is called once per frame
@@ -68,44 +78,47 @@ public class Player : MonoBehaviour
         CheckCameraBoundsY();
         CheckCameraBoundsX();
         this.transform.position = position;
+
+        if (daydreamActivated)
+        {
+            cams[2] = puzzleCam1;
+        }
     }
 
     public void CheckCameraBoundsX()
     {
-        Vector2 screenPos = Camera.main.WorldToScreenPoint(position);
+        Vector2 screenPos = cams[curCam].WorldToScreenPoint(position);
 
         if (screenPos.x < 0)
         {
             screenPos.x = 0;
-            position = Camera.main.ScreenToWorldPoint(screenPos);
+            position = cams[curCam].ScreenToWorldPoint(screenPos);
             //Debug.Log("Left");
             //ScreenTransition(-1);
             //gameMgr.IsDoorActive = false;
             //Destroy(gameMgr.Door.gameObject);
             //hasKey = false;
         }
-        else if (screenPos.x > Camera.main.pixelWidth)
+        else if (screenPos.x > cams[curCam].pixelWidth)
         {
-            screenPos.x = Camera.main.pixelWidth;
-            position = Camera.main.ScreenToWorldPoint(screenPos);
+            screenPos.x = cams[curCam].pixelWidth;
+            position = cams[curCam].ScreenToWorldPoint(screenPos);
         }
     }
 
     public void CheckCameraBoundsY()
     {
-        Vector2 screenPos = Camera.main.WorldToScreenPoint(position);
+        Vector2 screenPos = cams[curCam].WorldToScreenPoint(position);
         if (screenPos.y < 0)
         {
-            Debug.Log("OB down");
             screenPos.y = 0f;
         }
-        if(screenPos.y > Camera.main.pixelHeight)
+        if(screenPos.y > cams[curCam].pixelHeight)
         {
-            Debug.Log("OB up");
-            screenPos.y = Camera.main.pixelHeight;
+            screenPos.y = cams[curCam].pixelHeight;
         }
 
-        position = Camera.main.ScreenToWorldPoint(screenPos);
+        position = cams[curCam].ScreenToWorldPoint(screenPos);
         this.transform.position = position;
     }
 
@@ -114,6 +127,10 @@ public class Player : MonoBehaviour
         curCam += dir;
         cams[curCam - dir].enabled = false;
         cams[curCam].enabled = true;
+        Vector2 screenPos = cams[curCam].WorldToScreenPoint(position);
+        screenPos.y = cams[curCam].pixelHeight / 2;
+        position = cams[curCam].ScreenToWorldPoint(screenPos);
+        this.transform.position = position;
     }
 
     public void AddInventoryItem(GameObject item)

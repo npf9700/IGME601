@@ -38,6 +38,7 @@ public class Doorknob : MonoBehaviour
         if(CheckOverlap(player) && isPickUpable && Input.GetKeyDown(KeyCode.Space))
         {
             player.AddInventoryItem(this.transform.GetChild(0).gameObject);
+            player.HasKey = true;
             doorknobTrail.gameObject.SetActive(false);
             this.gameObject.SetActive(false);
         }

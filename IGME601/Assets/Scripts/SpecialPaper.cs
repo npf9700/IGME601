@@ -68,6 +68,7 @@ public class SpecialPaper : MonoBehaviour
         this.GetComponent<SpriteRenderer>().sprite = arrow;
         Quaternion rot = new Quaternion(0f, 0f, 0f, 0f);
         this.transform.rotation = rot;
+        player.DaydreamActivated = true;
     }
 }
 
