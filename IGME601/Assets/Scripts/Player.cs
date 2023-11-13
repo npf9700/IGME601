@@ -25,9 +25,12 @@ public class Player : MonoBehaviour
     private Camera rightCam;
     [SerializeField]
     private Camera puzzleCam1;
+    [SerializeField]
+    private Camera puzzleCam2;
     private int curCam;
 
     private bool daydreamActivated;
+    private bool firstPuzzleSolved;
 
     private Camera[] cams;
 
@@ -82,6 +85,11 @@ public class Player : MonoBehaviour
         if (daydreamActivated)
         {
             cams[2] = puzzleCam1;
+        }
+
+        if (firstPuzzleSolved)
+        {
+            cams[1] = puzzleCam2;
         }
     }
 

@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private InventoryUI inventory;
 
+    [SerializeField]
     private List<GameObject> keys;
 
     private int fileCount;
