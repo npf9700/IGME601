@@ -5,7 +5,8 @@ using UnityEngine;
 public class DoorPuzzleTrigger : MonoBehaviour
 {
     public Player player;
-    public GameObject doorknob;
+    public GameObject doorknobController;
+    public GameObject doorVar;
 
     void Start()
     {
@@ -18,8 +19,7 @@ public class DoorPuzzleTrigger : MonoBehaviour
         if (CheckOverlap(player))
         {
             Debug.Log("Triggered");
-            doorknob.gameObject.SetActive(true);
-            Destroy(this.gameObject);
+            StartCoroutine(DoorknobPuzzleBegin());
         }
     }
     public bool CheckOverlap(Player p)
@@ -37,5 +37,15 @@ public class DoorPuzzleTrigger : MonoBehaviour
         if (this.transform.position.y - 2.5f > y + height)
             return false;
         return true;
+    }
+
+    IEnumerator DoorknobPuzzleBegin()
+    {
+        yield return new WaitForSeconds(4f);
+        Door doorLock = doorVar.gameObject.GetComponent<Door>();
+        doorLock.IsLocked = true;
+
+        doorknobController.gameObject.SetActive(true);
+        Destroy(this.gameObject);
     }
 }

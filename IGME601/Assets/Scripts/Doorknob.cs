@@ -16,30 +16,34 @@ public class Doorknob : MonoBehaviour
 
     public float speed = 1.5f;
 
-    public GameObject doorknobTrail;
-
     int direction = 1;
+
+    public DoorKnobChangeRail dkcr;
+    public GameObject doorVar;
 
     public void Update()
     {
-        Vector2 target = currentMovementTarget();
-
-        doorknob.position = Vector2.Lerp(doorknob.position, target, speed * Time.deltaTime);
-
-        float distance = (target - (Vector2)doorknob.position).magnitude;
-
-        if(distance <= 0.1f)
+        if (dkcr.thisRail.activeInHierarchy == true)
         {
-            doorknob.transform.SetPositionAndRotation(start.position, start.rotation);
-            doorknobTrail.gameObject.SetActive(true);
-            this.gameObject.SetActive(false);
+            Vector2 target = currentMovementTarget();
+
+            doorknob.position = Vector2.Lerp(doorknob.position, target, speed * Time.deltaTime);
+
+            float distance = (target - (Vector2)doorknob.position).magnitude;
+
+            if (distance <= 0.1f)
+            {
+                doorknob.transform.SetPositionAndRotation(start.position, start.rotation);
+                dkcr.ToggleRail();
+            }
         }
 
         if(CheckOverlap(player) && isPickUpable && Input.GetKeyDown(KeyCode.Space))
         {
-            player.AddInventoryItem(this.transform.GetChild(0).gameObject);
+            player.AddInventoryItem(this.transform.GetChild(0).transform.GetChild(0).gameObject);
             player.HasKey = true;
-            doorknobTrail.gameObject.SetActive(false);
+            Door doorLock = doorVar.gameObject.GetComponent<Door>();
+            doorLock.IsLocked = false;
             this.gameObject.SetActive(false);
         }
     }
@@ -71,13 +75,13 @@ public class Doorknob : MonoBehaviour
         float y = p.transform.position.y;
         float width = p.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2;
         float height = p.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2;
-        if (this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.x + this.transform.GetChild(0).transform.position.x < x - width)
+        if (this.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.x + this.transform.GetChild(0).transform.position.x < x - width)
             return false;
-        if (this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.y + this.transform.GetChild(0).transform.position.y < y - height)
+        if (this.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.y + this.transform.GetChild(0).transform.position.y < y - height)
             return false;
-        if (this.transform.GetChild(0).transform.position.x - this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.x > x + width)
+        if (this.transform.GetChild(0).transform.GetChild(0).transform.position.x - this.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.x > x + width)
             return false;
-        if (this.transform.GetChild(0).transform.position.y - this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.y > y + height)
+        if (this.transform.GetChild(0).transform.GetChild(0).transform.position.y - this.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.y > y + height)
             return false;
         return true;
     }
