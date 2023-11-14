@@ -10,6 +10,8 @@ public class Doorknob : MonoBehaviour
 
     [SerializeField]
     private bool isPickUpable;
+    [SerializeField]
+    private GameManager gameMgr;
 
     [SerializeField]
     private Player player;
@@ -21,30 +23,49 @@ public class Doorknob : MonoBehaviour
     public DoorKnobChangeRail dkcr;
     public GameObject doorVar;
 
+
+    void Start()
+    {
+        doorknob.transform.SetPositionAndRotation(start.position, start.rotation);
+    }
+
     public void Update()
     {
+        Vector2 target = currentMovementTarget();
+        float distance = (target - (Vector2)doorknob.position).magnitude;
+
         if (dkcr.thisRail.activeInHierarchy == true)
         {
-            Vector2 target = currentMovementTarget();
-
             doorknob.position = Vector2.Lerp(doorknob.position, target, speed * Time.deltaTime);
-
-            float distance = (target - (Vector2)doorknob.position).magnitude;
-
-            if (distance <= 0.1f)
-            {
-                doorknob.transform.SetPositionAndRotation(start.position, start.rotation);
-                dkcr.ToggleRail();
-            }
+            //if (distance <= 0.1f)
+            //{
+            //    doorknob.transform.SetPositionAndRotation(start.position, start.rotation);
+            //    dkcr.ToggleRail();
+            //}
         }
 
-        if(CheckOverlap(player) && isPickUpable && Input.GetKeyDown(KeyCode.Space))
+        if (CheckOverlap(player) && Input.GetKeyDown(KeyCode.Space))
         {
-            player.AddInventoryItem(this.transform.GetChild(0).transform.GetChild(0).gameObject);
-            player.HasKey = true;
-            Door doorLock = doorVar.gameObject.GetComponent<Door>();
-            doorLock.IsLocked = false;
-            this.gameObject.SetActive(false);
+            if (isPickUpable)
+            {
+                player.AddInventoryItem(this.transform.GetChild(0).transform.GetChild(0).gameObject);
+                player.HasKey = true;
+                //Door doorLock = doorVar.gameObject.GetComponent<Door>();
+                //doorLock.IsLocked = false;
+                this.transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);
+                isPickUpable = false;
+            }
+            else if (!isPickUpable && distance <= 2f)
+            {
+                gameMgr.KnobInteractCount++;
+                //doorknob.transform.SetPositionAndRotation(start.position, start.rotation);
+                dkcr.ToggleRail();
+                Debug.Log("Interacted " + gameMgr.KnobInteractCount + " times");
+            }
+        }
+        if (gameMgr.KnobInteractCount >= 2)
+        {
+            isPickUpable = true;
         }
     }
 
@@ -75,9 +96,9 @@ public class Doorknob : MonoBehaviour
         float y = p.transform.position.y;
         float width = p.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2;
         float height = p.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2;
-        if (this.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.x + this.transform.GetChild(0).transform.position.x < x - width)
+        if (this.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.x + this.transform.GetChild(0).transform.GetChild(0).transform.position.x < x - width)
             return false;
-        if (this.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.y + this.transform.GetChild(0).transform.position.y < y - height)
+        if (this.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.y + this.transform.GetChild(0).transform.GetChild(0).transform.position.y < y - height)
             return false;
         if (this.transform.GetChild(0).transform.GetChild(0).transform.position.x - this.transform.GetChild(0).transform.GetChild(0).GetComponent<SpriteRenderer>().sprite.bounds.size.x > x + width)
             return false;

@@ -41,7 +41,7 @@ public class DoorPuzzleTrigger : MonoBehaviour
 
     IEnumerator DoorknobPuzzleBegin()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(1f);
         Door doorLock = doorVar.gameObject.GetComponent<Door>();
         doorLock.IsLocked = true;
 

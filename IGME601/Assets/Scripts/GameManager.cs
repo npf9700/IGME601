@@ -38,18 +38,26 @@ public class GameManager : MonoBehaviour
 
     private int fileCount;
 
+    private int knobInteractCount;
+
     private bool firstPuzzleSolved;
 
+    public int KnobInteractCount
+    {
+        get { return knobInteractCount; }
+        set { knobInteractCount = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        keys = new List<GameObject>();
+        //keys = new List<GameObject>();
         fileCount = 0;
         paperColors = new List<Color>();
         paperColors.Add(Color.green);
         paperColors.Add(Color.red);
         paperColors.Add(Color.blue);
+        KnobInteractCount = 0;
     }
 
     // Update is called once per frame

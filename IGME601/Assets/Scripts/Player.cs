@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private Color heldPaperColor;
     private bool hasKey;
 
+    [SerializeField]
     private List<GameObject> inventory;
 
     private GameObject overlappedObject;
@@ -150,8 +151,11 @@ public class Player : MonoBehaviour
     {
         for(int i = 0; i < inventory.Count; i++)
         {
-            if(inventory[i].GetComponent<SpriteRenderer>().sprite == sprite)
+            Debug.Log(sprite.name);
+            Debug.Log(inventory[i].GetComponent<SpriteRenderer>().sprite.name);
+            if(inventory[i].GetComponent<SpriteRenderer>().sprite.name == sprite.name)
             {
+                Debug.Log("Found");
                 inventory.RemoveAt(i);
             }
         }
