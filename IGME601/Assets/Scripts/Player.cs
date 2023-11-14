@@ -59,12 +59,17 @@ public class Player : MonoBehaviour
         get { return daydreamActivated; }
         set { daydreamActivated = value; }
     }
+    public bool FirstPuzzleSolved
+    {
+        get { return firstPuzzleSolved; }
+        set { firstPuzzleSolved = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         character = this.GetComponent<CharacterController>();
-        playerSpeed = 10f;
+        playerSpeed = 15f;
         position = this.transform.position;
         curCam = 1;
         cams = new Camera[] { leftCam, mainCam, rightCam};

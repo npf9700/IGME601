@@ -61,6 +61,7 @@ public class Doorknob : MonoBehaviour
                 //doorknob.transform.SetPositionAndRotation(start.position, start.rotation);
                 dkcr.ToggleRail();
                 Debug.Log("Interacted " + gameMgr.KnobInteractCount + " times");
+                player.FirstPuzzleSolved = true;
             }
         }
         if (gameMgr.KnobInteractCount >= 2)
