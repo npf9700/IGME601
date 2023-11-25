@@ -69,7 +69,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         character = this.GetComponent<CharacterController>();
-        playerSpeed = 15f;
+        playerSpeed = 5f;
         position = this.transform.position;
         curCam = 1;
         cams = new Camera[] { leftCam, mainCam, rightCam};

@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    pap.GetComponent<SpriteRenderer>().color = Color.blue;
+                    pap.GetComponent<SpriteRenderer>().color = new Color((52f / 255f), (105f / 255f), (235f / 255f), 1f);
                 }
             }
         }

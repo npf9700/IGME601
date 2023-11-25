@@ -33,7 +33,7 @@ public class Cabinet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cabinetColor = this.transform.GetChild(0).GetComponent<SpriteRenderer>().color;
+        cabinetColor = this./*transform.GetChild(0).*/GetComponent<SpriteRenderer>().color;
         storedSuccess = false;
         desiredSprite = paper.GetComponent<SpriteRenderer>().sprite;
     }
@@ -48,11 +48,13 @@ public class Cabinet : MonoBehaviour
     {
         storedSuccess = true;
         this.GetComponent<SpriteRenderer>().color = Color.yellow;
+        this.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.yellow;
     }
 
     public void ResetCabinet()
     {
         storedSuccess = false;
-        this.GetComponent<SpriteRenderer>().color = new Color(0.925f, 0.867f, 0.686f, 1f);
+        this.GetComponent<SpriteRenderer>().color = cabinetColor;
+        this.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
     }
 }
