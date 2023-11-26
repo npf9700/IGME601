@@ -7,6 +7,7 @@ public class Paper : MonoBehaviour
 
     [SerializeField]
     private Player player;
+    public GameObject talkUI;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,8 @@ public class Paper : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                if (talkUI!=null)
+                talkUI.SetActive(true);
                 player.AddInventoryItem(this.gameObject);
                 this.gameObject.SetActive(false);
             }
