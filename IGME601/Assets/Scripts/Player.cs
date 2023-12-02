@@ -6,7 +6,11 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private GameManager gameMgr;
-    private CharacterController character;
+    [SerializeField]
+    private Rigidbody2D rb;
+    private float horizontal;
+    private float vertical;
+    //private CharacterController character;
     private float playerSpeed;
     private Vector2 position;
     [SerializeField]
@@ -68,7 +72,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        character = this.GetComponent<CharacterController>();
+        //character = this.GetComponent<CharacterController>();
         playerSpeed = 5f;
         position = this.transform.position;
         curCam = 1;
@@ -81,8 +85,32 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        character.Move(new Vector3(Input.GetAxis("Horizontal") * Time.deltaTime * playerSpeed,
-            Input.GetAxis("Vertical") * Time.deltaTime * playerSpeed, 0f));
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
+
+        rb.velocity = new Vector2(horizontal * playerSpeed, vertical * playerSpeed);
+
+        //character.Move(new Vector3(Input.GetAxis("Horizontal") * Time.deltaTime * playerSpeed,
+        //    Input.GetAxis("Vertical") * Time.deltaTime * playerSpeed, 0f));
+
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    position.x += Time.deltaTime * playerSpeed;
+        //}
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    position.x -= Time.deltaTime * playerSpeed;
+        //}
+        //if (Input.GetKey(KeyCode.W))
+        //{
+        //    position.y += Time.deltaTime * playerSpeed;
+        //}
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    position.y -= Time.deltaTime * playerSpeed;
+        //}
+        //this.transform.position = position;
+
         position = this.transform.position;
         CheckCameraBoundsY();
         CheckCameraBoundsX();
@@ -178,4 +206,5 @@ public class Player : MonoBehaviour
         }
     }
 
+   
 }

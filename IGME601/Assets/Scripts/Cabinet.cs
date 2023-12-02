@@ -11,6 +11,8 @@ public class Cabinet : MonoBehaviour
     private Color cabinetColor;
     [SerializeField]
     private GameObject paper;
+    [SerializeField]
+    private Sprite daydreamSprite;
 
     private Sprite desiredSprite;
 
@@ -55,6 +57,14 @@ public class Cabinet : MonoBehaviour
     {
         storedSuccess = false;
         this.GetComponent<SpriteRenderer>().color = cabinetColor;
-        this.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
+        this.transform.GetChild(0).GetComponent<SpriteRenderer>().color = cabinetColor;
+    }
+    
+    public void AlterSprite()
+    {
+        this.GetComponent<SpriteRenderer>().sprite = daydreamSprite;
+        this.transform.localScale = new Vector2(0.75f, 0.75f);
+        this.transform.position = new Vector2(this.transform.position.x, this.transform.position.y - 1f);
+        this.transform.GetChild(0).gameObject.SetActive(false);
     }
 }

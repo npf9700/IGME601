@@ -22,6 +22,12 @@ public class GameManager : MonoBehaviour
     private GameObject paper;
     [SerializeField]
     private GameObject specialPaper;
+    [SerializeField]
+    private List<GameObject> changeObjects;
+    [SerializeField]
+    private GameObject dreamTree;
+    [SerializeField]
+    private GameObject coffin;
 
     [SerializeField]
     private List<Transform> paperSpots;
@@ -73,6 +79,24 @@ public class GameManager : MonoBehaviour
                     if (doors[i].IsLeft)
                     {
                         player.ScreenTransition(-1);
+
+                        if (fileCount == 1 && changeObjects[0].gameObject.activeInHierarchy == true)
+                        {
+                            Vector2 newVec = new Vector2(changeObjects[0].transform.position.x, changeObjects[0].transform.position.y - 1);
+                            Instantiate(dreamTree, newVec, Quaternion.identity);
+                            changeObjects[0].gameObject.SetActive(false);
+                        }
+
+                        if (fileCount == 2 && changeObjects[1].gameObject.activeInHierarchy == true)
+                        {
+                            Vector2 newVec = new Vector2(changeObjects[1].transform.position.x, changeObjects[1].transform.position.y - 1);
+                            Instantiate(dreamTree, newVec, Quaternion.identity);
+                            changeObjects[1].gameObject.SetActive(false);
+
+                            Vector2 newVec2 = new Vector2(changeObjects[2].transform.position.x, changeObjects[2].transform.position.y);
+                            Instantiate(coffin, newVec2, Quaternion.identity);
+                            changeObjects[2].gameObject.SetActive(false);
+                        }
                     }
                     else
                     {
@@ -95,7 +119,11 @@ public class GameManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    for(int j = 0; j < inventory.UIItems.Count; j++)
+                    if (fileCount == 2)
+                    {
+                        cabinets[i].AlterSprite();
+                    }
+                    for (int j = 0; j < inventory.UIItems.Count; j++)
                     {
                         if(inventory.UIItems[j].GetComponent<Image>().sprite == cabinets[i].DesiredSprite &&
                             inventory.UIItems[j].GetComponent<Image>().color == cabinets[i].CabinetColor)

@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class DialogeSystem : MonoBehaviour
 {
     // Get UI
-    public Text textlabel;
+    public TextMeshProUGUI textlabel;
     // Get Textfile
     public TextAsset textfile;
     public int index;
