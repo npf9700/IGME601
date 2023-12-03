@@ -8,6 +8,10 @@ public class DoorPuzzleTrigger : MonoBehaviour
     public GameObject doorknobController;
     public GameObject doorVar;
 
+    public GameObject talkUI;
+    public GameObject Panel;
+    public TextAsset textfile;
+
     void Start()
     {
         player = FindObjectOfType<Player>();
@@ -20,6 +24,17 @@ public class DoorPuzzleTrigger : MonoBehaviour
         {
             Debug.Log("Triggered");
             StartCoroutine(DoorknobPuzzleBegin());
+            if (talkUI != null)
+            {
+                DialogeSystem Dialoge = Panel.GetComponent<DialogeSystem>();
+                if (Dialoge != null)
+                {
+                    Dialoge.SetTextFile(textfile);
+                    Canvas myCanvas = talkUI.GetComponent<Canvas>();
+                    myCanvas.sortingLayerName = "top";
+                    myCanvas.sortingOrder = 100;
+                }
+            }
         }
     }
     public bool CheckOverlap(Player p)

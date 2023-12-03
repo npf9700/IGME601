@@ -17,7 +17,7 @@ public class SpecialPaper : MonoBehaviour
     public GameObject talkUI;
     public GameObject Panel;
     public TextAsset textfile;
-    public TextAsset textfile2;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -55,17 +55,6 @@ public class SpecialPaper : MonoBehaviour
             else if(Input.GetKeyDown(KeyCode.Space) && moveTriggered)
             {
                 TransformTrigger();
-                if (talkUI != null)
-                {
-                    DialogeSystem Dialoge = Panel.GetComponent<DialogeSystem>();
-                    if (Dialoge != null)
-                    {
-                        Dialoge.SetTextFile(textfile2);
-                        Canvas myCanvas = talkUI.GetComponent<Canvas>();
-                        myCanvas.sortingLayerName = "top";
-                        myCanvas.sortingOrder = 100;
-                    }
-                }
             }
         }
 
