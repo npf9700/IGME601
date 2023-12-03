@@ -9,12 +9,11 @@ public class DialogeSystem : MonoBehaviour
 {
     // Get UI
     public TextMeshProUGUI textlabel;
+    public GameObject talkUI;
     // Get Textfile
     public TextAsset textfile;
     public int index;
     private List<string> textlist = new List<string>();
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +27,9 @@ public class DialogeSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && index == textlist.Count)
         {
-            gameObject.SetActive(false);
+            Canvas myCanvas = talkUI.GetComponent<Canvas>();
+            myCanvas.sortingLayerName = "Default";
+            myCanvas.sortingOrder = -10;
             index = 0;
             return;
         }
@@ -42,12 +43,19 @@ public class DialogeSystem : MonoBehaviour
     void GetTextFromFile(TextAsset file)
     {
         textlist.Clear();
+        textlabel.text=string.Empty;
         index = 0;
         var lineData = file.text.Split('\n');
-
         foreach (var line in lineData)
         {
             textlist.Add(line);
         }
+        textlabel.text = textlist[index];
+    }
+    public void SetTextFile(TextAsset file)
+    {
+        textfile = file;
+        
+        GetTextFromFile(textfile);
     }
 }

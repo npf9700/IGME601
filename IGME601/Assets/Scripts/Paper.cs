@@ -8,6 +8,8 @@ public class Paper : MonoBehaviour
     [SerializeField]
     private Player player;
     public GameObject talkUI;
+    public GameObject Panel;
+    public TextAsset textfile;
 
     // Start is called before the first frame update
     void Start()
@@ -23,8 +25,17 @@ public class Paper : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (talkUI!=null)
-                talkUI.SetActive(true);
+                if (talkUI != null)
+                {
+                    DialogeSystem Dialoge = Panel.GetComponent<DialogeSystem>();
+                    if (Dialoge != null) 
+                    {
+                        Dialoge.SetTextFile(textfile);
+                        Canvas myCanvas = talkUI.GetComponent<Canvas>();
+                        myCanvas.sortingLayerName = "top";
+                        myCanvas.sortingOrder = 100;
+                    }
+                }
                 player.AddInventoryItem(this.gameObject);
                 this.gameObject.SetActive(false);
             }

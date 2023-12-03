@@ -99,3 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   arrow: {fileID: 21300000, guid: 53e78a77892250f4786dd75b75804a17, type: 3}
+  talkUI: {fileID: 0}
+  Panel: {fileID: 0}
+  textfile: {fileID: 4900000, guid: cd64c70811e812e4a830f5bf3d0d49ff, type: 3}
+  textfile2: {fileID: 4900000, guid: ac3d463b233f680429ff7c22c43622eb, type: 3}

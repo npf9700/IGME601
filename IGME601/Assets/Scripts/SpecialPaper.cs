@@ -14,12 +14,19 @@ public class SpecialPaper : MonoBehaviour
     [SerializeField]
     private Sprite arrow;
 
+    public GameObject talkUI;
+    public GameObject Panel;
+    public TextAsset textfile;
+    public TextAsset textfile2;
+
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<Player>();
         position = this.transform.position;
         moveTriggered = false;
+        talkUI = GameObject.Find("DialogueUIMainRoom");
+        Panel = GameObject.Find("PanelMainRoom");
     }
 
     // Update is called once per frame
@@ -31,10 +38,34 @@ public class SpecialPaper : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && !moveTriggered)
             {
                 moveTriggered = true;
+                talkUI = GameObject.Find("DialogueUIMainRoom");
+                Panel = GameObject.Find("PanelMainRoom");
+                if (talkUI != null)
+                {
+                    DialogeSystem Dialoge = Panel.GetComponent<DialogeSystem>();
+                    if (Dialoge != null)
+                    {
+                        Dialoge.SetTextFile(textfile);
+                        Canvas myCanvas = talkUI.GetComponent<Canvas>();
+                        myCanvas.sortingLayerName = "top";
+                        myCanvas.sortingOrder = 100;
+                    }
+                }
             }
             else if(Input.GetKeyDown(KeyCode.Space) && moveTriggered)
             {
                 TransformTrigger();
+                if (talkUI != null)
+                {
+                    DialogeSystem Dialoge = Panel.GetComponent<DialogeSystem>();
+                    if (Dialoge != null)
+                    {
+                        Dialoge.SetTextFile(textfile2);
+                        Canvas myCanvas = talkUI.GetComponent<Canvas>();
+                        myCanvas.sortingLayerName = "top";
+                        myCanvas.sortingOrder = 100;
+                    }
+                }
             }
         }
 
@@ -44,6 +75,14 @@ public class SpecialPaper : MonoBehaviour
         }
 
         this.transform.position = position;
+    }
+    public void setUI(GameObject UI) 
+    {
+        talkUI=UI;
+    }
+    public void setPanel(GameObject panel)
+    {
+        Panel = panel;
     }
 
     private bool CheckOverlap(Player p)

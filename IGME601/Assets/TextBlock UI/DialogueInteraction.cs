@@ -12,7 +12,9 @@ public class DialogueInteraction : MonoBehaviour
         
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                talkUI.SetActive(true);
+                Canvas myCanvas = talkUI.GetComponent<Canvas>();
+                myCanvas.sortingLayerName = "top";
+                myCanvas.sortingOrder = 100;
             }
             
     }
