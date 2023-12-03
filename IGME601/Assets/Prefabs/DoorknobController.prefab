@@ -196,9 +196,11 @@ MonoBehaviour:
   start: {fileID: 3260878260648804635}
   end: {fileID: 3260878259750841489}
   isPickUpable: 1
+  gameMgr: {fileID: 0}
   player: {fileID: 0}
   speed: 0.75
   dkcr: {fileID: 3260878261017768962}
+  doorVar: {fileID: 0}
 --- !u!114 &3260878261017768962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,8 +238,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3260878261285163573}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.07, y: 3.98, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

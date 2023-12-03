@@ -21,7 +21,7 @@ public class Doorknob : MonoBehaviour
     int direction = 1;
 
     public DoorKnobChangeRail dkcr;
-    public GameObject doorVar;
+    //public GameObject doorVar;
 
 
     void Start()
