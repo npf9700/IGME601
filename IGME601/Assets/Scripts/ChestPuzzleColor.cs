@@ -15,7 +15,7 @@ public class ChestPuzzleColor : MonoBehaviour
     {
         //sr = this.gameObject.GetComponent<SpriteRenderer>();
         //ChangeColor();
-        ChestOpen();
+        //ChestOpen();
     }
 
     public void ChestOpen()
@@ -41,5 +41,44 @@ public class ChestPuzzleColor : MonoBehaviour
         sr.sprite = openSprite;
         yield return new WaitForSeconds(3);
         sr.sprite = closeSprite;
+    }
+
+    public void RevealContents()
+    {
+        sr.sprite = openSprite;
+        if (hasKey)
+        {
+            sr.color = Color.blue;
+        }
+        else
+        {
+            sr.color = Color.red;
+        }
+    }
+
+    public void OpenChest()
+    {
+        sr.sprite = openSprite;
+    }
+    public void CloseChest()
+    {
+        sr.sprite = closeSprite;
+    }
+
+    public bool CheckOverlap(Player p)
+    {
+        float x = p.transform.position.x;
+        float y = p.transform.position.y;
+        float width = p.GetComponent<SpriteRenderer>().sprite.bounds.size.x / 2;
+        float height = p.GetComponent<SpriteRenderer>().sprite.bounds.size.y / 2;
+        if (this.GetComponent<SpriteRenderer>().sprite.bounds.size.x + this.transform.position.x < x - width)
+            return false;
+        if (this.GetComponent<SpriteRenderer>().sprite.bounds.size.y + this.transform.position.y < y - height)
+            return false;
+        if (this.transform.position.x - this.GetComponent<SpriteRenderer>().sprite.bounds.size.x > x + width)
+            return false;
+        if (this.transform.position.y - this.GetComponent<SpriteRenderer>().sprite.bounds.size.y > y + height)
+            return false;
+        return true;
     }
 }

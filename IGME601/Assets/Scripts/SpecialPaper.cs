@@ -93,9 +93,7 @@ public class SpecialPaper : MonoBehaviour
 
     private void TransformTrigger()
     {
-        this.GetComponent<SpriteRenderer>().sprite = arrow;
-        Quaternion rot = new Quaternion(0f, 0f, 0f, 0f);
-        this.transform.rotation = rot;
+        this.gameObject.SetActive(false);
         player.DaydreamActivated = true;
     }
 }
