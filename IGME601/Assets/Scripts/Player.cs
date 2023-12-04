@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cainos.PixelArtTopDown_Basic;
 
 public class Player : MonoBehaviour
 {
@@ -112,8 +113,11 @@ public class Player : MonoBehaviour
         //this.transform.position = position;
 
         position = this.transform.position;
-        CheckCameraBoundsY();
-        CheckCameraBoundsX();
+        //if (!daydreamActivated)
+        //{
+            CheckCameraBoundsY();
+            CheckCameraBoundsX();
+        //}
         this.transform.position = position;
 
         if (daydreamActivated)
@@ -166,13 +170,25 @@ public class Player : MonoBehaviour
 
     public void ScreenTransition(int dir)
     {
+        //if(curCam + dir == 2 && daydreamActivated)
+        //{
+        //    position = cams[curCam + dir].transform.position;
+        //}
         curCam += dir;
         cams[curCam - dir].enabled = false;
         cams[curCam].enabled = true;
         Vector2 screenPos = cams[curCam].WorldToScreenPoint(position);
         screenPos.y = cams[curCam].pixelHeight / 2;
         position = cams[curCam].ScreenToWorldPoint(screenPos);
+
         this.transform.position = position;
+
+        //if (curCam == 2 && daydreamActivated)
+        //{
+        //    cams[curCam].GetComponent<CameraFollow>().enabled = true;
+        //    puzzleCam1.enabled = true;
+        //    mainCam.enabled = false;
+        //}
     }
 
     public void AddInventoryItem(GameObject item)
