@@ -206,5 +206,8 @@ public class Player : MonoBehaviour
         }
     }
 
-   
+   public void StopVelo()
+    {
+        rb.velocity = new Vector2(0f, 0f);
+    }
 }

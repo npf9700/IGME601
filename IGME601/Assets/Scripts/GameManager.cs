@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     private GameObject dreamTree;
     [SerializeField]
     private GameObject coffin;
+    [SerializeField]
+    private List<ChestPuzzleColor> chests;
 
     [SerializeField]
     private List<Transform> paperSpots;
@@ -145,14 +147,29 @@ public class GameManager : MonoBehaviour
         }
 
         //Key Collision Check
-        if (keys.Count > 0 && keys[0] != null)
+        for (int i = 0; i < keys.Count; i++)
         {
-            if (keys[0].GetComponent<Key>().CheckOverlap(player) && Input.GetKeyDown(KeyCode.Space))
+            if (keys[i] != null)
             {
-                player.HasKey = true;
-                player.AddInventoryItem(keys[0]);
-                keys[0].gameObject.SetActive(false);
-                keys[0] = null;
+                if (keys[i].GetComponent<Key>().CheckOverlap(player) && Input.GetKeyDown(KeyCode.Space))
+                {
+                    player.HasKey = true;
+                    player.AddInventoryItem(keys[0]);
+                    keys[i].gameObject.SetActive(false);
+                    keys[i] = null;
+                }
+            }
+        }
+
+        for(int i = 0; i < chests.Count; i++)
+        {
+            if (chests[i].CheckOverlap(player) && Input.GetKeyDown(KeyCode.Space))
+            {
+                if (chests[i].hasKey)
+                {
+                    keys.Add(Instantiate(key, keySpawn));
+                }
+                chests[i].RevealContents();
             }
         }
     }
