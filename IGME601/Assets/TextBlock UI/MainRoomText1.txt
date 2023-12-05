@@ -1,4 +1,5 @@
-You stride over to your well-worn workbench, ready to dive into your daily routine. 
+You stride over to your well-worn workbench, ready to dive into your daily routine. (Hit space to continue)
 It's time to sort and dispatch the assorted documents that clutter your desk.
 (Instruction: Place the Colored papers in the proper filling cabinets)
 (Instruction: The Cabinet room is on your right)
+(Instruction: Use "WASD" to move the character)
