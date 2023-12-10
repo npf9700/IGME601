@@ -1535,6 +1535,8 @@ MonoBehaviour:
   chest1: {fileID: 1731342895}
   chest2: {fileID: 1042846939}
   chest3: {fileID: 1245396658}
+  blackScreenTime: 1
+  visibleTime: 1.5
   player: {fileID: 1730045220}
   key: {fileID: 0}
 --- !u!1001 &584701797
